@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,6 +23,8 @@ import {
 } from '@/components/ui/select';
 import { subjects } from '@/constants';
 import { Textarea } from '@/components/ui/textarea';
+import { createCompanion } from '@/lib/actions/companion.actions';
+import { redirect } from 'next/navigation';
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Companion is required' }),
@@ -47,8 +48,15 @@ const CompanionForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+
+    if (companion) {
+      redirect(`/companions/${companion.id}`);
+    } else {
+      console.log('Failed to create companion');
+      redirect('/');
+    }
   };
 
   return (
@@ -193,7 +201,7 @@ const CompanionForm = () => {
         />
         <Button
           type='submit'
-          className='w-full cursor-pointer bg-orange-500 hover:bg-orange-400'
+          className='w-full cursor-pointer bg-orange-500 py-5 hover:bg-orange-400'
         >
           Build Companion
         </Button>

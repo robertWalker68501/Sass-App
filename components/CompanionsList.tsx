@@ -30,10 +30,10 @@ const CompanionsList = ({ companions, classNames }: CompanionsListProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {companions?.map(({ $id, subject, name, topic, duration }) => (
-            <TableRow key={$id}>
+          {companions?.map(({ id, subject, name, topic, duration }) => (
+            <TableRow key={id}>
               <TableCell>
-                <Link href={`/companions/${$id}`}>
+                <Link href={`/companions/${id}`}>
                   <div className='flex items-center gap-2'>
                     <div
                       className='flex size-[72px] items-center justify-center rounded-lg max-md:hidden'
